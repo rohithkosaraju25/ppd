@@ -14,4 +14,5 @@ public class Claim {
     String claimName;
     String state;
     String desc;
+
 }
