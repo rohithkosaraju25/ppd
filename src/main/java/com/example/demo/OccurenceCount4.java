@@ -29,38 +29,38 @@ public class OccurenceCount4 {
         myList.add(new Claim(date1, "Ajax", "AZ", "capgemini")); // 1
         myList.add(new Claim(date1, "Ajax", "NY", "hartford"));
 
-        // myList.add(new Claim(date1, "Carl", "AZ", "hartford"));
+        myList.add(new Claim(date1, "Carl", "AZ", "hartford"));
         myList.add(new Claim(date1, "Carl", "NY", "capgemini"));
         myList.add(new Claim(date1, "Carl", "TX", "hartford"));
 
         myList.add(new Claim(date1, "Bob", "AK", "capgemini"));// 2
 
-        // myList.add(new Claim(date2, "Ajax", "AZ", "capgemini"));
-        // myList.add(new Claim(date2, "Bob", "AK", "capgemini"));
+        myList.add(new Claim(date2, "Ajax", "AZ", "capgemini"));
+        myList.add(new Claim(date2, "Bob", "AK", "capgemini"));
 
-        // myList.add(new Claim(date3, "Bob", "TX", "hartford"));
-        // myList.add(new Claim(date3, "Carl", "TX", "hartford")); // duplicate
-        // myList.add(new Claim(date3, "Carl", "NY", "hartford")); // duplicate
+        myList.add(new Claim(date3, "Bob", "TX", "hartford"));
+        myList.add(new Claim(date3, "Carl", "TX", "hartford")); // duplicate
+        myList.add(new Claim(date3, "Carl", "NY", "hartford")); // duplicate
 
-        // myList.add(new Claim(date4, "Carl", "NY", null));
-        // myList.add(new Claim(date4, "Bob", "NY", null));
-        // myList.add(new Claim(date4, "Derrek", "AK", "hartford"));
-        // myList.add(new Claim(date4, null, "AK", "Hartford")); // duplicate
-        // myList.add(new Claim(date4, null, "AK", null));
-        // myList.add(new Claim(date4, null, "NY", null));
-        // myList.add(new Claim(date4, null, "NY", null));
+        myList.add(new Claim(date4, "Carl", "NY", null));
+        myList.add(new Claim(date4, "Bob", "NY", null));
+        myList.add(new Claim(date4, "Derrek", "AK", "hartford"));
+        myList.add(new Claim(date4, null, "AK", "Hartford")); // duplicate
+        myList.add(new Claim(date4, null, "AK", null));
+        myList.add(new Claim(date4, null, "NY", null));
+        myList.add(new Claim(date4, null, "NY", null));
 
-        // myList.add(new Claim(date5, null, "NY", "capgemini"));
-        // myList.add(new Claim(date5, null, "AK", "hartford"));
+        myList.add(new Claim(date5, null, "NY", "capgemini"));
+        myList.add(new Claim(date5, null, "AK", "hartford"));
 
-        // myList.add(new Claim(date5, null, "NY", "capgemini")); // duplicate
-        // myList.add(new Claim(date5, null, "NY", "capgemini"));// duplicate
+        myList.add(new Claim(date5, null, "NY", "capgemini")); // duplicate
+        myList.add(new Claim(date5, null, "NY", "capgemini"));// duplicate
 
-        // myList.add(new Claim(date5, null, "NY", null));
-        // myList.add(new Claim(date5, null, "NY", "hartford"));
+        myList.add(new Claim(date5, null, "NY", null));
+        myList.add(new Claim(date5, null, "NY", "hartford"));
 
-        // myList.add(new Claim(date6, "Carl", null, "capgemini"));
-        // myList.add(new Claim(date6, "Bob", null, "capgemini"));
+        myList.add(new Claim(date6, "Carl", null, "capgemini"));
+        myList.add(new Claim(date6, "Bob", null, "capgemini"));
         Map<LocalDate, List<Claim>> myMap = myList.stream().collect(Collectors.groupingBy(Claim::getAcctDate));
 
         myMap.forEach((date, claims) -> {
