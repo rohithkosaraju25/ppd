@@ -17,9 +17,6 @@ public class OccurrenceCount6 {
     public static void main(String[] args) throws IOException {
         List<Claim> myList = new ArrayList<>();
         List<Claim> nonDupClaims = new ArrayList<>();
-
-        FileWriter fw = new FileWriter("C:\\Users\\rohit\\OneDrive\\out.txt");
-        BufferedWriter writer = new BufferedWriter(fw);
         LocalDate date1 = LocalDate.of(22, 10, 10);
         LocalDate date2 = LocalDate.of(22, 10, 11);
         LocalDate date3 = LocalDate.of(22, 10, 12);
@@ -79,27 +76,20 @@ public class OccurrenceCount6 {
                 }
             });
         });
-        for (Claim claim : nonDupClaims) {
-            writer.write(claim.toString());
-            writer.write("\n");
-            System.out.println(claim);
-        }
-        writer.write(String.valueOf(nonDupClaims.size()));
         System.out.println(nonDupClaims.size());
-        writer.close();
     }
 
     private static boolean checkForDuplicateClaims(List<Claim> claims, Claim checkClaim,
             int index) {
         AtomicBoolean duplicateFound = new AtomicBoolean(false);
-        for (int i = 0; i < index; i++) {
-            Claim copyClaim = claims.get(i);
-            if (copyClaim.getAcctDate().equals(checkClaim.getAcctDate()) &&
-                    (claimNameCheck(copyClaim, checkClaim) ||
-                            stateAndDescriptionCheck(copyClaim, checkClaim))) {
+        List<Claim> previousClaims = claims.subList(0, index);
+        previousClaims.forEach(previousClaim -> {
+            if (previousClaim.getAcctDate().equals(checkClaim.getAcctDate()) &&
+                    (claimNameCheck(previousClaim, checkClaim) ||
+                            stateAndDescriptionCheck(previousClaim, checkClaim))) {
                 duplicateFound.set(true);
             }
-        }
+        });
         return duplicateFound.get();
     }
 
