@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -58,6 +56,7 @@ public class OccurrenceCount6 {
 
         myList.add(new Claim(date6, "Carl", null, "capgemini"));
         myList.add(new Claim(date6, "Bob", null, "capgemini"));
+
         Map<LocalDate, List<Claim>> myMap = myList.stream().collect(Collectors.groupingBy(Claim::getAcctDate));
 
         myMap.forEach((date, claims) -> {
