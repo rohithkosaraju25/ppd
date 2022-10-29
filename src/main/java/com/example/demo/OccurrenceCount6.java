@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.ObjectUtils;
 
-public class OccurrenceCount5 {
+public class OccurrenceCount6 {
     public static void main(String[] args) throws IOException {
         List<Claim> myList = new ArrayList<>();
         List<Claim> nonDupClaims = new ArrayList<>();
@@ -64,17 +64,16 @@ public class OccurrenceCount5 {
         Map<LocalDate, List<Claim>> myMap = myList.stream().collect(Collectors.groupingBy(Claim::getAcctDate));
 
         myMap.forEach((date, claims) -> {
-            claims.forEach(claim -> {
-                Claim checkClaim = getACopyOfClaim(claim);
-                if (claims.indexOf(claim) == 0 && Collections.frequency(claims, claim) == 1) {
+            claims.forEach(checkClaim -> {
+                if (claims.indexOf(checkClaim) == 0 && Collections.frequency(claims, checkClaim) == 1) {
                     nonDupClaims.add(checkClaim);
                 } else if (nonDupClaims.contains(checkClaim)
-                        && !claimNameCheck(claim, checkClaim)
-                        && ObjectUtils.isEmpty(claim.getDesc())) {
+                        && !claimNameCheck(nonDupClaims.get(nonDupClaims.indexOf(checkClaim)), checkClaim)
+                        && ObjectUtils.isEmpty(checkClaim.getDesc())) {
                     nonDupClaims.add(checkClaim);
                 } else {
                     if (!nonDupClaims.contains(checkClaim) &&
-                            !checkForDuplicateClaims(claims, checkClaim, claims.indexOf(claim))) {
+                            !checkForDuplicateClaims(claims, checkClaim, claims.indexOf(checkClaim))) {
                         nonDupClaims.add(checkClaim);
                     }
                 }
@@ -83,7 +82,7 @@ public class OccurrenceCount5 {
         for (Claim claim : nonDupClaims) {
             writer.write(claim.toString());
             writer.write("\n");
-            // System.out.println(claim);
+            System.out.println(claim);
         }
         writer.write(String.valueOf(nonDupClaims.size()));
         System.out.println(nonDupClaims.size());
@@ -94,7 +93,7 @@ public class OccurrenceCount5 {
             int index) {
         AtomicBoolean duplicateFound = new AtomicBoolean(false);
         for (int i = 0; i < index; i++) {
-            Claim copyClaim = getACopyOfClaim(claims.get(i));
+            Claim copyClaim = claims.get(i);
             if (copyClaim.getAcctDate().equals(checkClaim.getAcctDate()) &&
                     (claimNameCheck(copyClaim, checkClaim) ||
                             stateAndDescriptionCheck(copyClaim, checkClaim))) {
@@ -105,28 +104,17 @@ public class OccurrenceCount5 {
     }
 
     private static boolean stateAndDescriptionCheck(Claim claim, Claim checkClaim) {
-        boolean value = checkClaim.getState().equalsIgnoreCase(claim.getState())
-                && !claim.getState().equalsIgnoreCase("") &&
-                checkClaim.getDesc().equalsIgnoreCase(claim.getDesc()) && !claim.getDesc().equalsIgnoreCase("");
+        boolean value = !ObjectUtils.isEmpty(claim.getState()) && !ObjectUtils.isEmpty(checkClaim.getState())
+                && checkClaim.getState().equalsIgnoreCase(claim.getState())
+                && !ObjectUtils.isEmpty(claim.getDesc()) && !ObjectUtils.isEmpty(checkClaim.getDesc())
+                && checkClaim.getDesc().equalsIgnoreCase(claim.getDesc());
         return value;
     }
 
     private static boolean claimNameCheck(Claim claim, Claim checkClaim) {
-        boolean value = checkClaim.getClaimName().equalsIgnoreCase(claim.getClaimName())
-                && !claim.getClaimName().equalsIgnoreCase("");
+        boolean value = !ObjectUtils.isEmpty(claim.getClaimName()) && !ObjectUtils.isEmpty(checkClaim.getClaimName())
+                && checkClaim.getClaimName().equalsIgnoreCase(claim.getClaimName());
         return value;
-    }
-
-    private static Claim getACopyOfClaim(Claim claim) {
-        Claim claimCopy = new Claim();
-        claimCopy.setAcctDate(claim.getAcctDate());
-        String claimantName = ObjectUtils.isEmpty(claim.getClaimName()) ? "" : claim.getClaimName();
-        claimCopy.setClaimName(claimantName);
-        String state = ObjectUtils.isEmpty(claim.getState()) ? "" : claim.getState();
-        claimCopy.setState(state);
-        String desc = ObjectUtils.isEmpty(claim.getDesc()) ? "" : claim.getDesc();
-        claimCopy.setDesc(desc);
-        return claimCopy;
     }
 
 }
